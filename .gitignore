@@ -1,0 +1,18 @@
+# OpenEdge build output
+.builder/
+*.r
+
+# Session temp files (-T ./temp), the folder itself must exist
+temp/*
+!temp/.gitkeep
+
+# Output of the Live Demo 4 refactoring (scripts/reset-demo4.ps1 empties it)
+src/modern/
+
+# PDSOE workspace metadata
+.metadata/
+.sonarlint/
+
+# OS cruft
+Thumbs.db
+.DS_Store

@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.encoding": "utf8",
+		"files.exclude": {
+			"**/*.r": true,
+			".builder": true
+		},
+		"search.exclude": {
+			"temp": true
+		}
+	},
+	"extensions": {
+		"recommendations": [
+			"RiversideSoftware.openedge-abl-lsp"
+		]
+	}
+}

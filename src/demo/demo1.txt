@@ -1,0 +1,5 @@
+\bCustomerManager\b
+
+def(?:ine)?\s+(?:\w+\s+)*var(?:iable)?\s+\w*Count\b
+
+\bnew\s+\w*Customer\w*\s*\(

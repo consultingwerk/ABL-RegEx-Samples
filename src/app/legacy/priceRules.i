@@ -1,0 +1,1 @@
+&global-define VAT_RATE 0.21

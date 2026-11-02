@@ -1,0 +1,20 @@
+{
+  "name": "ABL-RegEx-Samples",
+  "version": "1.0",
+  "oeversion": "12.8",
+  "graphicalMode": true,
+  "charset": "utf-8",
+  "extraParameters": "-cpinternal utf-8 -cpstream utf-8 -cpcoll basic -T ./temp -assemblies ./assemblies",
+  "buildPath": [
+    {
+      "type": "source",
+      "path": "src",
+      "includes": "**/*",
+      "excludes": "",
+      "xref": ".builder/.xref"
+    }
+  ],
+  "dbConnections": [],
+  "procedures": [],
+  "profiles": []
+}
