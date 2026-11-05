@@ -32,6 +32,11 @@ All paths in the samples are relative to the repository root, so run everything 
   %DLC%\bin\_progres.exe -b -p scripts/run.p -param src/demo/checkEMail.p -T temp -cpinternal utf-8 -cpstream utf-8 -cpcoll basic -assemblies ./assemblies
   ```
 
+## Reference
+
+[`docs/dotnet-regex-reference.md`](docs/dotnet-regex-reference.md): the .NET `Regex`, `Match`, `Group`
+and `Capture` members, every `RegexOptions` value and the replacement tokens, with the things that differ from ABL.
+
 ## Samples in `src/demo`
 
 | File | Shows |
@@ -41,10 +46,12 @@ All paths in the samples are relative to the repository root, so run everything 
 | `inputCharacter.p` | Regex on a `CHARACTER` value |
 | `inputLongchar.p` | Regex on a `LONGCHAR` value |
 | `inputFile.p` | Regex on a whole file, read by .NET and kept on the .NET side (reflection) |
+| `inputPerformance.p` | Times the three input variants on a ~100 MB test file (written to the temp directory on the first run) |
 | `parseDefineVariable.p` | The same parser as minified and formatted regex vs. minified and formatted ABL |
 | `VatHelper.cls` | VAT number validation with named groups (`country`, `number`, `check`) |
 | `EMailHelper.cls` | E-mail validation along RFC 5322, formatted with `IgnorePatternWhitespace` |
 | `quantifier-demo.txt` | Greedy, lazy, possessive and atomic quantifiers, catastrophic backtracking |
+| `catastrophicBacktracking.p` | Bonus, not shown in the talk: a pattern whose run time doubles with every character, the unambiguous rewrite, and a match timeout as safety net |
 
 ## Live demos
 

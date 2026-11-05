@@ -43,4 +43,7 @@ aaaaaaaaaa
 #   (a++)+b    possessive   - Java and PCRE2 only, NOT .NET
 # VS Code Search's default engine is not a backtracking engine at all, so
 # (a+)+b is harmless there.
+#
+# The same trap in ABL code, with timings, a match timeout and the rewrite
+# that needs no atomic group: src/demo/catastrophicBacktracking.p
 aaaaaaaaaaaaaaaaaac

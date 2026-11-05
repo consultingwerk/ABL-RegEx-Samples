@@ -3,3 +3,7 @@
 def(?:ine)?\s+(?:\w+\s+)*var(?:iable)?\s+\w*Count\b
 
 \bnew\s+\w*Customer\w*\s*\(
+
+(?<=class\s)(?:[\w-]+\.)*[\w-]+
+
+\w+(?=\s*\()
