@@ -19,7 +19,7 @@ using System.Text.RegularExpressions.* from assembly.
 | Missing groups | A group that did not take part returns `""` with `Success = no`, never `?`. A misspelled group name does the same, without an error. |
 | Options | `RegexOptions` are bit flags: combine them with `or`, e.g. `RegexOptions:Compiled or RegexOptions:IgnoreCase`. |
 | Escaping | ABL removes `~` at compile time: `\d{4}` is written `"~\d~{4~}"` in an ABL string. Test the unescaped pattern on regex101.com (.NET flavor). |
-| Strings | Every `CHARACTER` or `LONGCHAR` argument is converted to a new `System.String` on every call. For very large text, keep it on the .NET side (see `src/demo/inputFile.p`). |
+| Strings | Every `CHARACTER` or `LONGCHAR` argument is converted to a new `System.String` on every call. For very large text, keep it on the .NET side (see `src/samples/inputFile.p`). |
 | Comments | A multi-line ABL string literal contains no line breaks. With `IgnorePatternWhitespace`, use `(?# ... )` comments, not `#`. |
 | Indexers | `oMatch:Groups:Item[1]`, `oMatch:Groups:Item["name"]`, `oMatches:Item[0]`. |
 
@@ -31,7 +31,7 @@ using System.Text.RegularExpressions.* from assembly.
 |---|---|
 | `new Regex (pattern)` | |
 | `new Regex (pattern, options)` | |
-| `new Regex (pattern, options, matchTimeout)` | `matchTimeout` is a `System.TimeSpan`, e.g. `System.TimeSpan:FromSeconds (2)`. Exceeding it throws `RegexMatchTimeoutException` (see `src/demo/catastrophicBacktracking.p`). |
+| `new Regex (pattern, options, matchTimeout)` | `matchTimeout` is a `System.TimeSpan`, e.g. `System.TimeSpan:FromSeconds (2)`. Exceeding it throws `RegexMatchTimeoutException` (see `src/samples/catastrophicBacktracking.p`). |
 
 The constructor parses the pattern: an invalid pattern throws `System.ArgumentException` here, not later.
 
@@ -74,6 +74,10 @@ array, so use `(?:...)` if you only want the parts between the hits.
 | `Regex:CacheSize` | how many patterns the static methods keep parsed (default 15) |
 | `Regex:Escape (text)` | escapes metacharacters, so the text matches literally (e.g. user input inside a pattern) |
 | `Regex:Unescape (text)` | the reverse |
+
+`Regex:Escape` escapes `\ * + ? | { [ ( ) ^ $ . #` and white space, not `]` and `}`. There is no `\Q...\E`
+in .NET (it throws); Java and PCRE have it. User text in a **replacement** needs `$` doubled:
+`replace (cText, "$":u, "$$":u)`. See `src/samples/escapeUserInput.p`.
 | `Regex:InfiniteMatchTimeout` | the "no timeout" value |
 
 ## Result objects
@@ -96,7 +100,7 @@ Regex ──Match()/Matches()──> Match ──Groups──> Group ──Captu
 | `GroupCollection` | `Count`, `Item[i]`, `Item["name"]` |
 | `CaptureCollection` | `Count`, `Item[i]` |
 
-Walk all hits with `Match` and `NextMatch` (see `src/demo/walkMatches.p`):
+Walk all hits with `Match` and `NextMatch` (see `src/samples/walkMatches.p`):
 
 ```abl
 oMatch = oRegex:Match (lcText).
@@ -123,6 +127,23 @@ end.
 | `NonBacktracking` | | **.NET 7+**: linear run time, no catastrophic backtracking; no lookarounds, backreferences or atomic groups |
 
 Inline options can switch on and off for a part of the pattern: `(?i:define)`, `(?-i)`.
+
+### `Multiline` and `Singleline`
+
+Despite the names, the two are independent: `Multiline` changes `^` and `$`, `Singleline` changes `.`.
+Results on OpenEdge 12.8 for the text `"end.~ndefine x.~nend.~n"`:
+
+| Options | `^` and `$` | `.` | `^.+$` finds |
+|---|---|---|---|
+| neither | start and end of the text (`$` also before a final line break) | not `\n` | nothing |
+| `Multiline` | start and end of every line | not `\n` | every line (3 hits) |
+| `Singleline` | start and end of the text | also `\n` | the whole text (1 hit) |
+| both | start and end of every line | also `\n` | the whole text: a greedy `.*` runs over the line ends |
+
+With both options, use `[^\n]*` or a lazy `.*?` to stay inside one line.
+
+**Windows line breaks:** with `Multiline`, `$` matches before `\n`, not before `\r\n`. In a CRLF text
+`^end\.$` finds nothing, `^end\.\r?$` finds every line. `\z` is the absolute end of the text.
 
 ## Replacement tokens
 

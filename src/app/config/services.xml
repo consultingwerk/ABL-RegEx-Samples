@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<services>
-    <service name="orders"  class="app.legacy.OrderService"   report="app/legacy/orderReport.p"/>
-    <service name="prices"  class="app.legacy.PriceCalculator"/>
-    <service name="bridge"  class="app.legacyBridge.Adapter"/>
-</services>

@@ -1,0 +1,13 @@
+{
+    "orders": {
+        "class": "demo2.app.legacy.OrderService",
+        "report": "demo2\\app\\legacy\\orderReport.p"
+    },
+    "prices": {
+        "class": "demo2.app.legacy.PriceCalculator",
+        "rules": "demo2/app/legacy/priceRules.i"
+    },
+    "bridge": {
+        "class": "demo2.app.legacyBridge.Adapter"
+    }
+}

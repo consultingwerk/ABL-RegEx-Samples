@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services>
+    <service name="orders"  class="demo2.app.legacy.OrderService"   report="demo2/app/legacy/orderReport.p"/>
+    <service name="prices"  class="demo2.app.legacy.PriceCalculator"/>
+    <service name="bridge"  class="demo2.app.legacyBridge.Adapter"/>
+</services>

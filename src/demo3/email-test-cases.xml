@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EMailTests>
+    <EMailTest>
+        <EMailAddress>test@example.com</EMailAddress>
+        <Expected>true</Expected>
+        <Note>simple dot-atom local part</Note>
+    </EMailTest>
+    <EMailTest>
+        <EMailAddress>john.doe@example.co.uk</EMailAddress>
+        <Expected>true</Expected>
+        <Note>multiple dot-separated atoms in local part and domain</Note>
+    </EMailTest>
+    <EMailTest>
+        <EMailAddress>user@localhost</EMailAddress>
+        <Expected>true</Expected>
+        <Note>single-label domain (no TLD) - technically allowed by RFC 5322</Note>
+    </EMailTest>
+    <EMailTest>
+        <EMailAddress>&quot;john doe&quot;@example.com</EMailAddress>
+        <Expected>true</Expected>
+        <Note>space inside quotes is allowed (RFC 5322 3.2.4 FWS, RFC 5321 qtextSMTP %d32)</Note>
+    </EMailTest>
+    <EMailTest>
+        <EMailAddress>&quot;john\&quot;doe&quot;@example.com</EMailAddress>
+        <Expected>true</Expected>
+        <Note>a quote inside quotes must be escaped (quoted-pair)</Note>
+    </EMailTest>
+    <EMailTest>
+        <EMailAddress>user@[192.168.0.1]</EMailAddress>
+        <Expected>true</Expected>
+        <Note>domain-literal IPv4 address</Note>
+    </EMailTest>
+    <EMailTest>
+        <EMailAddress>user@[999.168.0.1]</EMailAddress>
+        <Expected>false</Expected>
+        <Note>valid syntax for RFC 5322 (domain-literal), but not an IPv4 address literal for SMTP: each number must be 0-255 (RFC 5321 4.1.3)</Note>
+    </EMailTest>
+    <EMailTest>
+        <EMailAddress>plainaddress</EMailAddress>
+        <Expected>false</Expected>
+        <Note>missing '@' and domain entirely</Note>
+    </EMailTest>
+    <EMailTest>
+        <EMailAddress>@example.com</EMailAddress>
+        <Expected>false</Expected>
+        <Note>missing local part</Note>
+    </EMailTest>
+    <EMailTest>
+        <EMailAddress>user@</EMailAddress>
+        <Expected>false</Expected>
+        <Note>missing domain</Note>
+    </EMailTest>
+    <EMailTest>
+        <EMailAddress>user@example..com</EMailAddress>
+        <Expected>false</Expected>
+        <Note>empty label between two consecutive dots</Note>
+    </EMailTest>
+    <EMailTest>
+        <EMailAddress>us-er@ex-ample.com</EMailAddress>
+        <Expected>true</Expected>
+        <Note>hyphen in the middle of a local-part atom and a domain label</Note>
+    </EMailTest>
+    <EMailTest>
+        <EMailAddress>-user@example.com</EMailAddress>
+        <Expected>true</Expected>
+        <Note>local part MAY start with '-' - atext has no position rule</Note>
+    </EMailTest>
+    <EMailTest>
+        <EMailAddress>user@-example.com</EMailAddress>
+        <Expected>false</Expected>
+        <Note>domain label may NOT start with '-' - DNS label rule</Note>
+    </EMailTest>
+</EMailTests>

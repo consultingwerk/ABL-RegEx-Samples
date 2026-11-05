@@ -29,7 +29,7 @@ All paths in the samples are relative to the repository root, so run everything 
   procedure given in `-param`:
 
   ```
-  %DLC%\bin\_progres.exe -b -p scripts/run.p -param src/demo/checkEMail.p -T temp -cpinternal utf-8 -cpstream utf-8 -cpcoll basic -assemblies ./assemblies
+  %DLC%\bin\_progres.exe -b -p scripts/run.p -param src/demo3/checkEMail.p -T temp -cpinternal utf-8 -cpstream utf-8 -cpcoll basic -assemblies ./assemblies
   ```
 
 ## Reference
@@ -37,7 +37,7 @@ All paths in the samples are relative to the repository root, so run everything 
 [`docs/dotnet-regex-reference.md`](docs/dotnet-regex-reference.md): the .NET `Regex`, `Match`, `Group`
 and `Capture` members, every `RegexOptions` value and the replacement tokens, with the things that differ from ABL.
 
-## Samples in `src/demo`
+## Samples in `src/samples`
 
 | File | Shows |
 |---|---|
@@ -49,18 +49,20 @@ and `Capture` members, every `RegexOptions` value and the replacement tokens, wi
 | `inputPerformance.p` | Times the three input variants on a ~100 MB test file (written to the temp directory on the first run) |
 | `parseDefineVariable.p` | The same parser as minified and formatted regex vs. minified and formatted ABL |
 | `VatHelper.cls` | VAT number validation with named groups (`country`, `number`, `check`) |
-| `EMailHelper.cls` | E-mail validation along RFC 5322, formatted with `IgnorePatternWhitespace` |
 | `quantifier-demo.txt` | Greedy, lazy, possessive and atomic quantifiers, catastrophic backtracking |
 | `catastrophicBacktracking.p` | Bonus, not shown in the talk: a pattern whose run time doubles with every character, the unambiguous rewrite, and a match timeout as safety net |
+| `anchorModes.p` | `Multiline` moves `^` and `$`, `Singleline` moves `.`: all four combinations, `\z` vs. `$`, Windows line breaks |
+| `escapeUserInput.p` | User input in a pattern (`Regex:Escape`) and in a replacement (`$$`); `\Q...\E` does not exist in .NET |
+| `whitespaceDemo.p` | Tabs, spaces and line breaks from ABL strings: `~t` vs. `~\t`, `IgnorePatternWhitespace`, `\s` and the non-breaking space |
 
 ## Live demos
 
 | Demo | Files | Reset |
 |---|---|---|
-| 1 Finding code in PDSOE and VS Code | `src/shop`, patterns in `src/demo/demo1.txt` | nothing to reset |
-| 2 Move a folder, fix every reference | `src/app`, pattern in `src/demo/demo2.txt` | `scripts/reset-demo2.ps1` |
-| 3 Validating e-mail addresses | `src/demo/checkEMail.p`, `EMailHelper.cls`, `email-test-cases.xml` | nothing to reset |
-| 4 Turning variables into properties | `src/demo/refactor.p`: `src/classic` → `src/modern` | `scripts/reset-demo4.ps1` |
+| 1 Finding code in PDSOE and VS Code | `src/demo1/shop`, patterns in `src/demo1/demo1.txt` | nothing to reset |
+| 2 Move a folder, fix every reference | `src/demo2/app`, pattern in `src/demo2/demo2.txt` | `scripts/reset-demo2.ps1` |
+| 3 Validating e-mail addresses | `src/demo3/checkEMail.p`, `EMailHelper.cls` (RFC 5322, formatted with `IgnorePatternWhitespace`), `email-test-cases.xml` | nothing to reset |
+| 4 Turning variables into properties | `src/demo4/refactor.p`: `src/demo4/classic` → `src/demo4/modern` | `scripts/reset-demo4.ps1` |
 
 Run the reset scripts with:
 

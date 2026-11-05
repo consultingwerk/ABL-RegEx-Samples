@@ -1,0 +1,49 @@
+# Regex Quantifier Demo — Greedy vs. Lazy vs. Possessive / Atomic
+#
+# Search each pattern below against the marked line underneath it (PDSOE
+# workspace search, VS Code, or regex101.com with the ".NET (C#)" or "Java"
+# flavor). The "#" lines are just documentation - they are not part of the demo.
+
+# --- 1) Greedy vs. Lazy --------------------------------------------------
+# Works the same in every engine (.NET, Java/PDSOE, VS Code).
+# Pattern greedy:  <.+>    -> matches the ENTIRE line, from the first < to the last >
+# Pattern lazy:    <.+?>   -> matches only <b> (stops at the first possible >)
+<b>bold</b> and <i>italic</i> and <u>underline</u>
+
+# --- 2) Greedy vs. Possessive / Atomic -----------------------------------
+# Pattern greedy:      a*a      -> matches the whole line (backtracks, leaves the last 'a')
+# Pattern possessive:  a*+a     -> does NOT match: a*+ takes all a's and never gives one back
+# Pattern atomic:      (?>a*)a  -> same effect as a*+a, written as an atomic group
+#
+# Which engine knows what:
+#   Java (PDSOE), PCRE2       possessive AND atomic
+#   .NET (ABL code)           atomic only - .NET has NO possessive quantifiers
+#   VS Code editor (JS)       neither
+#   VS Code Search (ripgrep)  careful: the default engine accepts a*+a but reads
+#                             it as (a*)+a and DOES match; (?>a*)a is a parse error.
+#                             Only ripgrep's PCRE2 mode gets both right.
+aaaaaaaaaa
+
+# --- 3) Catastrophic backtracking (handle with care in a live demo) ------
+# Pattern:  (a+)+b
+# This line ends in 'c', not 'b', so the pattern can never succeed - a
+# backtracking engine (PDSOE's Java-based search AND .NET's Regex both
+# qualify) has to try every way of splitting the a-run across (a+)+ before
+# giving up. That's exponential in the number of a's.
+#
+# WARNING: this line is deliberately short (18 a's) so a live test still
+# finishes in well under a second. Do NOT extend the run much further on
+# stage - every extra 'a' can roughly DOUBLE the search time; past ~30 a's
+# this can hang the search for minutes. If you want to show the blow-up
+# live, grow it two or three characters at a time and let the audience
+# watch the delay increase.
+#
+# Rewrite that fails fast instead:
+#   (?>a+)+b   atomic group - .NET, Java, PCRE2
+#   (a++)+b    possessive   - Java and PCRE2 only, NOT .NET
+# VS Code Search's default engine is not a backtracking engine at all, so
+# (a+)+b is harmless there.
+#
+# The same trap in ABL code, with timings, a match timeout and the rewrite
+# that needs no atomic group: src/samples/catastrophicBacktracking.p
+aaaaaaaaaaaaaaaaaac
