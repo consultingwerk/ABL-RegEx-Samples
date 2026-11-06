@@ -1,2 +1,2 @@
-\bapp(\.|/|\\{1,2})legacy\1
+\bapp([\./\\]{1,2})legacy\1
 app$1
