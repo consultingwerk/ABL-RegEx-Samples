@@ -52,6 +52,7 @@ and `Capture` members, every `RegexOptions` value and the replacement tokens, wi
 | `quantifier-demo.txt` | Greedy, lazy, possessive and atomic quantifiers, catastrophic backtracking |
 | `catastrophicBacktracking.p` | Bonus, not shown in the talk: a pattern whose run time doubles with every character, the unambiguous rewrite, and a match timeout as safety net |
 | `anchorModes.p` | `Multiline` moves `^` and `$`, `Singleline` moves `.`: all four combinations, `\z` vs. `$`, Windows line breaks |
+| `balancedParentheses.p` | Nested brackets with .NET balancing groups: a named group as a stack, calls with nested arguments, and where it stops |
 | `escapeUserInput.p` | User input in a pattern (`Regex:Escape`) and in a replacement (`$$`); `\Q...\E` does not exist in .NET |
 | `whitespaceDemo.p` | Tabs, spaces and line breaks from ABL strings: `~t` vs. `~\t`, `IgnorePatternWhitespace`, `\s` and the non-breaking space |
 

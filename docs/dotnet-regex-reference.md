@@ -145,6 +145,33 @@ With both options, use `[^\n]*` or a lazy `.*?` to stay inside one line.
 **Windows line breaks:** with `Multiline`, `$` matches before `\n`, not before `\r\n`. In a CRLF text
 `^end\.$` finds nothing, `^end\.\r?$` finds every line. `\z` is the absolute end of the text.
 
+## Balancing groups: nested brackets
+
+A named group keeps all its captures, so .NET can use it as a stack. This is .NET only: Java, JavaScript
+and the default engine of ripgrep cannot do it, PCRE2 uses recursion (`(?R)`) instead.
+
+| Construct | Effect |
+|---|---|
+| `(?<Open>\()` | push: every `(` adds a capture to `Open` |
+| `(?<-Open>\))` | pop: removes the last capture of `Open`; fails if `Open` is empty |
+| `(?<Inner-Open>\))` | pop `Open` and capture the text between the `(` and this `)` in `Inner` |
+| `(?(Open)(?!))` | conditional: if `Open` still has captures, fail (`(?!)` never matches) |
+
+A call with its complete argument list, however deep the nesting:
+
+```abl
+cPattern = "~\bsubstitute~\s*~\((?<args>(?>[^()]+|~\((?<Depth>)|~\)(?<-Depth>))*(?(Depth)(?!)))~\)":u.
+```
+
+- `(?<Depth>)` pushes an empty capture: only the count matters.
+- `(?> ... )` is an atomic group, it keeps the engine from trying the loop again in every other split.
+- The regex sees characters, not ABL: parentheses in string literals and comments count too.
+- One stack per bracket type checks the counts, not the order: `a[(1])` passes. For mixed brackets
+  remove the innermost pairs (`\(\)|\[\]`) in a loop until nothing changes.
+
+See `src/samples/balancedParentheses.p`.
+Source: https://learn.microsoft.com/dotnet/standard/base-types/grouping-constructs-in-regular-expressions#balancing-group-definitions
+
 ## Replacement tokens
 
 | Token | Inserts |
